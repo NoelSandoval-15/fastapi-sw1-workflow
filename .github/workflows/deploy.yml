@@ -25,6 +25,9 @@ jobs:
       - name: Validate Docker build
         run: docker build -t servicio-ia-fastapi .
 
+      - name: Package application
+        run: zip -r deploy-package.zip . -x "*.git*" "*.github*"
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -37,3 +40,4 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
           application-name: ${{ env.APPLICATION_NAME }}
           environment-name: ${{ env.ENVIRONMENT_NAME }}
+          deployment-package-path: deploy-package.zip
